@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+<header class="news-masthead mb-5">
+    <p class="text-uppercase text-warning fw-bold mb-2">The daily edition</p>
+    <h1 class="display-4 fw-bold">Home</h1>
+    <p class="lead mb-0">The latest stories from our community.</p>
+</header>
+
+{% if articles %}
+<div class="row g-4">
+    {% for article in articles %}
+    <div class="col-md-6 col-xl-4">
+        <article class="card news-card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column p-4">
+                <p class="text-uppercase small text-secondary mb-2">
+                    {{ article.created_at|date:"F j, Y" }} &middot; {{ article.author.username }}
+                </p>
+                <h2 class="h4 card-title">
+                    <a class="stretched-link text-decoration-none text-dark"
+                       href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+                </h2>
+                <p class="card-text text-secondary">{{ article.body|truncatewords:28 }}</p>
+                <span class="mt-auto fw-semibold text-primary">Read story &rarr;</span>
+            </div>
+        </article>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<section class="card border-0 shadow-sm">
+    <div class="card-body p-5 text-center">
+        <h2 class="h3">No stories yet</h2>
+        <p class="text-secondary">Be the first to share a story with the community.</p>
+        {% if user.is_authenticated %}
+        <a class="btn btn-primary" href="{% url 'article_new' %}">Write an article</a>
+        {% else %}
+        <a class="btn btn-primary me-2" href="{% url 'login' %}">Log In</a>
+        <a class="btn btn-outline-primary" href="{% url 'signup' %}">Create an account</a>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+{% endblock content %}

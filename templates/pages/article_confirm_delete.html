@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Delete story | Newspaper{% endblock title %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <section class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="h3">Delete this story?</h1>
+                <p>“{{ object.title }}” will be permanently removed along with its comments.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-danger" type="submit">Delete story</button>
+                    <a class="btn btn-outline-secondary" href="{{ object.get_absolute_url }}">Keep story</a>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock content %}
